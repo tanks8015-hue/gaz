@@ -37,7 +37,10 @@ void Directory::removeResource(const std::string& name) {
         Logger::log("Попытка удаления несуществующего ресурса '" + name + "'", true);
     }
 }
-
+void Directory::sortContents(const std::function<bool(const std::unique_ptr<Resource>&, const std::unique_ptr<Resource>&)>& comparator) {
+    std::sort(contents.begin(), contents.end(), comparator);
+    Logger::log("Выполнена сортировка содержимого папки '" + getName() + "'");
+}
 size_t Directory::calculateSize() const {
     size_t total = 0;
     for (const auto& res : contents) {

@@ -18,5 +18,6 @@ public:
     std::unique_ptr<Resource> extractResource(const std::string& name);
     void collectAudit(AuditInfo& info) const override;
     void printGlobalAudit() const;
+    void sortContents(const std::function<bool(const std::unique_ptr<Resource>&, const std::unique_ptr<Resource>&)>& comparator);
     void search(const std::function<bool(const Resource*)>& predicate, std::vector<const Resource*>& results) const override;
 };
