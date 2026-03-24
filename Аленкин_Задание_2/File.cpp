@@ -19,7 +19,10 @@ std::string File::getExtension() const {
 size_t File::calculateSize() const {
     return size;
 }
-
+void File::collectAudit(AuditInfo& info) const {
+    info.fileCount++;
+    info.totalSize += size;
+}
 void File::printInfo(int depth) const {
     std::string indent(depth * 2, ' ');
     std::cout << indent << "- [Ôאיכ] " << getName() << extension << " (" << size << " באיע)\n";

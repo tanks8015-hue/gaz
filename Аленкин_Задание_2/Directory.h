@@ -16,6 +16,7 @@ public:
     void clear();
     std::unique_ptr<Resource> clone() const override;
     std::unique_ptr<Resource> extractResource(const std::string& name);
-
+    void collectAudit(AuditInfo& info) const override;
+    void printGlobalAudit() const;
     
 };

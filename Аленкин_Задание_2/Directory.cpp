@@ -61,4 +61,22 @@ std::unique_ptr<Resource> Directory::extractResource(const std::string& name) {
     contents.erase(it);
     return extracted;
 }
+void Directory::collectAudit(AuditInfo& info) const {
+    info.dirCount++; // Считаем саму папку
+    for (const auto& res : contents) {
+        res->collectAudit(info); // Рекурсивно собираем данные с содержимого
+    }
+}
 
+void Directory::printGlobalAudit() const {
+    AuditInfo info;
+    collectAudit(info); // Запускаем сбор
+
+    std::cout << "\n--- Глобальный аудит хранилища ---\n";
+    std::cout << "Всего папок: " << info.dirCount << "\n";
+    std::cout << "Всего файлов: " << info.fileCount << "\n";
+    std::cout << "Общий объем: " << info.totalSize << " байт\n";
+    std::cout << "Средний размер файла: "
+        << (info.fileCount > 0 ? info.totalSize / info.fileCount : 0)
+        << " байт\n";
+}

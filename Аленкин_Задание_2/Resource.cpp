@@ -1,13 +1,8 @@
 #include "Resource.h"
-#include <regex>
 #include "FileSystemException.h"
+#include <regex>
 
-Resource::Resource(const std::string& name, AccessLevel level)
-    : accessLevel(level) {
-    validateName(name); // Проверяем имя перед присвоением
-    this->name = name;
-    creationDate = std::time(nullptr);
-}
+// 1. Сначала ОПРЕДЕЛЯЕМ функцию валидации
 void validateName(const std::string& name) {
     std::regex invalidChars(R"([\\/:*?"<>|])");
     if (std::regex_search(name, invalidChars)) {
@@ -17,8 +12,17 @@ void validateName(const std::string& name) {
         throw FileSystemException("Ошибка: Имя не может быть пустым!");
     }
 }
+
+// 2. Только ПОСЛЕ этого используем её в методах класса
+Resource::Resource(const std::string& name, AccessLevel level)
+    : accessLevel(level) {
+    validateName(name); // Теперь компилятор знает, что это за функция
+    this->name = name;
+    creationDate = std::time(nullptr);
+}
+
 void Resource::setNameInternal(const std::string& newName) {
-    validateName(newName); 
+    validateName(newName);
     name = newName;
 }
 

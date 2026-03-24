@@ -1,13 +1,17 @@
 #pragma once
 #include <string>
 #include <ctime>
-
+#include <memory>
 enum class AccessLevel {
     GUEST,
     USER,
     ADMIN
 };
-
+struct AuditInfo {
+    size_t fileCount = 0;
+    size_t dirCount = 0;
+    size_t totalSize = 0;
+};
 class Resource {
 private:
     std::string name;
@@ -33,4 +37,5 @@ public:
     virtual size_t calculateSize() const = 0;
     virtual void printInfo(int depth = 0) const = 0;
     virtual std::unique_ptr<Resource> clone() const = 0;
+    virtual void collectAudit(AuditInfo& info) const = 0;
 };
