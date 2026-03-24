@@ -20,6 +20,26 @@ void Directory::search(const std::function<bool(const Resource*)>& predicate, st
         res->search(predicate, results);
     }
 }
+void Directory::removeResource(const std::string& name, AccessLevel currentUserLevel) {
+    auto originalSize = contents.size();
+
+    auto it = std::find_if(contents.begin(), contents.end(),
+        [&name](const std::unique_ptr<Resource>& res) {
+            return res->getName() == name;
+        });
+
+    if (it != contents.end()) {
+        if (currentUserLevel < (*it)->getAccessLevel()) {
+            throw FileSystemException("Отказано в доступе: недостаточно прав для удаления ресурса '" + name + "'!");
+        }
+
+        contents.erase(it);
+        Logger::log("Удален ресурс '" + name + "' из папки '" + getName() + "'");
+    }
+    else {
+        Logger::log("Попытка удаления несуществующего ресурса '" + name + "'", true);
+    }
+}
 void Directory::removeResource(const std::string& name) {
     auto originalSize = contents.size();
     contents.erase(
