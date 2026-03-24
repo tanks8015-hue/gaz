@@ -6,7 +6,8 @@
 class Directory : public Resource {
 private:
     std::vector<std::unique_ptr<Resource>> contents;
-
+    // Метод возвращает вырезанный ресурс, передавая владение наружу
+    std::unique_ptr<Resource> extractResource(const std::string& name);
 public:
     Directory(const std::string& name, AccessLevel level);
     void clear();
