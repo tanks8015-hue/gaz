@@ -24,12 +24,24 @@
     <ClCompile Include="Resource.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Directory.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileSystemException.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Directory.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>
