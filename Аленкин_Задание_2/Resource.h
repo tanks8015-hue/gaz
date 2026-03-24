@@ -27,15 +27,11 @@ protected:
 public:
     Resource(const std::string& name, AccessLevel level);
     virtual ~Resource() = default;
-
-    // Геттеры и сеттеры
     std::string getName() const;
     std::time_t getCreationDate() const;
     AccessLevel getAccessLevel() const;
-
     void setAccessLevel(AccessLevel level);
-
-    // Чисто виртуальные методы
+    void setCreationDate(std::time_t date);
     virtual size_t calculateSize() const = 0;
     virtual void printInfo(int depth = 0) const = 0;
     virtual std::unique_ptr<Resource> clone() const = 0;

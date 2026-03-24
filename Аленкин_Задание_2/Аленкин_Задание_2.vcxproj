@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArchiveManager.cpp" />
     <ClCompile Include="Directory.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="FileSystemException.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="Аленкин_Задание_2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArchiveManager.h" />
     <ClInclude Include="Directory.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="FileSystemException.h" />

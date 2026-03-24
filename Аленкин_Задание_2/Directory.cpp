@@ -48,7 +48,9 @@ size_t Directory::calculateSize() const {
     }
     return total;
 }
-
+const std::vector<std::unique_ptr<Resource>>& Directory::getContents() const {
+    return contents;
+}
 void Directory::printInfo(int depth) const {
     std::string indent(depth * 2, ' ');
     std::cout << indent << "+ [Папка] " << getName() << "\n";

@@ -23,6 +23,9 @@ void Resource::search(const std::function<bool(const Resource*)>& predicate, std
         results.push_back(this);
     }
 }
+void Resource::setCreationDate(std::time_t date) {
+    creationDate = date;
+}
 void Resource::setNameInternal(const std::string& newName) {
     validateName(newName);
     name = newName;
