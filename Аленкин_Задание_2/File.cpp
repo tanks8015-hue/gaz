@@ -5,7 +5,6 @@
 File::File(const std::string& name, const std::string& ext, size_t size, AccessLevel level)
     : Resource(name, level), extension(ext), size(size) {
 
-    // Проверка расширения: должно начинаться с точки и содержать только буквы/цифры
     std::regex validExt(R"(^\.[a-zA-Z0-9]+$)");
     if (!ext.empty() && !std::regex_match(ext, validExt)) {
         throw FileSystemException("Ошибка: Некорректный формат расширения файла!");
@@ -15,7 +14,18 @@ File::File(const std::string& name, const std::string& ext, size_t size, AccessL
 std::string File::getExtension() const {
     return extension;
 }
+void File::setContent(const std::string& text) {
+    content = text;
+    size = content.length();
+}
 
+std::string File::getContent() const {
+    return content;
+}
+
+bool File::containsText(const std::string& query) const {
+    return content.find(query) != std::string::npos;
+}
 size_t File::calculateSize() const {
     return size;
 }

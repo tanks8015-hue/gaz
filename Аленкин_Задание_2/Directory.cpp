@@ -83,12 +83,11 @@ void Directory::printInfo(int depth) const {
     }
 }
 void Directory::clear() {
-    contents.clear(); // Вектор очищается, деструкторы unique_ptr удаляют всё дерево
+    contents.clear();
 }
 std::unique_ptr<Resource> Directory::clone() const {
     auto copyDir = std::make_unique<Directory>(getName(), getAccessLevel());
     for (const auto& res : contents) {
-        // Рекурсивно клонируем всё содержимое
         copyDir->addResource(res->clone());
     }
     return copyDir;
@@ -108,15 +107,15 @@ std::unique_ptr<Resource> Directory::extractResource(const std::string& name) {
     return extracted;
 }
 void Directory::collectAudit(AuditInfo& info) const {
-    info.dirCount++; // Считаем саму папку
+    info.dirCount++;
     for (const auto& res : contents) {
-        res->collectAudit(info); // Рекурсивно собираем данные с содержимого
+        res->collectAudit(info); 
     }
 }
 
 void Directory::printGlobalAudit() const {
     AuditInfo info;
-    collectAudit(info); // Запускаем сбор
+    collectAudit(info); 
 
     std::cout << "\n--- Глобальный аудит хранилища ---\n";
     std::cout << "Всего папок: " << info.dirCount << "\n";
@@ -131,24 +130,18 @@ void Directory::exportToCSV(const std::string& filename) const {
     if (!out.is_open()) {
         throw FileSystemException("Ошибка: не удалось создать CSV файл!");
     }
-
-    // Записываем заголовки столбцов
     out << "Имя,Тип,Размер(Байт),Уровень Доступа\n";
 
-    // Собираем абсолютно все ресурсы (условие всегда возвращает true)
     std::vector<const Resource*> allResources;
     search([](const Resource*) { return true; }, allResources);
 
     for (const auto* res : allResources) {
-        // Определяем тип (Файл или Папка)
         std::string type = dynamic_cast<const File*>(res) ? "Файл" : "Папка";
 
-        // Расшифровываем enum AccessLevel в строку
         std::string aclStr = "GUEST";
         if (res->getAccessLevel() == AccessLevel::USER) aclStr = "USER";
         if (res->getAccessLevel() == AccessLevel::ADMIN) aclStr = "ADMIN";
 
-        // Пишем строку в CSV
         out << res->getName() << ","
             << type << ","
             << res->calculateSize() << ","
