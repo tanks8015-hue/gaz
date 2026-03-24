@@ -2,6 +2,8 @@
 #include <string>
 #include <ctime>
 #include <memory>
+#include <functional>
+#include <vector>
 enum class AccessLevel {
     GUEST,
     USER,
@@ -38,4 +40,5 @@ public:
     virtual void printInfo(int depth = 0) const = 0;
     virtual std::unique_ptr<Resource> clone() const = 0;
     virtual void collectAudit(AuditInfo& info) const = 0;
+    virtual void search(const std::function<bool(const Resource*)>& predicate, std::vector<const Resource*>& results) const;
 };

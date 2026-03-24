@@ -18,5 +18,5 @@ public:
     std::unique_ptr<Resource> extractResource(const std::string& name);
     void collectAudit(AuditInfo& info) const override;
     void printGlobalAudit() const;
-    
+    void search(const std::function<bool(const Resource*)>& predicate, std::vector<const Resource*>& results) const override;
 };

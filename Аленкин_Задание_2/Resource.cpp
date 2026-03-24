@@ -2,7 +2,6 @@
 #include "FileSystemException.h"
 #include <regex>
 
-// 1. Сначала ОПРЕДЕЛЯЕМ функцию валидации
 void validateName(const std::string& name) {
     std::regex invalidChars(R"([\\/:*?"<>|])");
     if (std::regex_search(name, invalidChars)) {
@@ -13,14 +12,17 @@ void validateName(const std::string& name) {
     }
 }
 
-// 2. Только ПОСЛЕ этого используем её в методах класса
 Resource::Resource(const std::string& name, AccessLevel level)
     : accessLevel(level) {
-    validateName(name); // Теперь компилятор знает, что это за функция
+    validateName(name);
     this->name = name;
     creationDate = std::time(nullptr);
 }
-
+void Resource::search(const std::function<bool(const Resource*)>& predicate, std::vector<const Resource*>& results) const {
+    if (predicate(this)) {
+        results.push_back(this);
+    }
+}
 void Resource::setNameInternal(const std::string& newName) {
     validateName(newName);
     name = newName;

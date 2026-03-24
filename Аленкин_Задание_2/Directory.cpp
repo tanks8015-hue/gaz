@@ -12,7 +12,14 @@ void Directory::addResource(std::unique_ptr<Resource> resource) {
     contents.push_back(std::move(resource));
     Logger::log("Добавлен ресурс '" + resName + "' в папку '" + getName() + "'");
 }
-
+void Directory::search(const std::function<bool(const Resource*)>& predicate, std::vector<const Resource*>& results) const {
+    if (predicate(this)) {
+        results.push_back(this);
+    }
+    for (const auto& res : contents) {
+        res->search(predicate, results);
+    }
+}
 void Directory::removeResource(const std::string& name) {
     auto originalSize = contents.size();
     contents.erase(

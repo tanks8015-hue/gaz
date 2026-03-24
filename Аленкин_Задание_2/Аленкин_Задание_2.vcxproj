@@ -130,6 +130,7 @@
     <ClCompile Include="Directory.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="FileSystemException.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Аленкин_Задание_2.cpp" />
   </ItemGroup>
@@ -137,6 +138,7 @@
     <ClInclude Include="Directory.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="FileSystemException.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

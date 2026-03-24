@@ -2,7 +2,7 @@
 #include "FileSystemException.h"
 #include "File.h"
 #include "Directory.h"
-
+#include "Logger.h"
 int main() {
     try {
         setlocale(LC_ALL, "Russian"); 
@@ -26,6 +26,7 @@ int main() {
     }
     catch (const FileSystemException& e) {
         std::cerr << "Ошибка файловой системы: " << e.what() << std::endl;
+        Logger::log(e.what(), true);
     }
     return 0;
 }
