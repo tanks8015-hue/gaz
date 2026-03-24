@@ -3,6 +3,9 @@
 #include <iostream>
 #include <algorithm>
 #include "Logger.h"
+#include <fstream>
+#include <iomanip>
+#include "File.h"
 Directory::Directory(const std::string& name, AccessLevel level)
     : Resource(name, level) {
 }
@@ -12,6 +15,7 @@ void Directory::addResource(std::unique_ptr<Resource> resource) {
     contents.push_back(std::move(resource));
     Logger::log("Добавлен ресурс '" + resName + "' в папку '" + getName() + "'");
 }
+
 void Directory::search(const std::function<bool(const Resource*)>& predicate, std::vector<const Resource*>& results) const {
     if (predicate(this)) {
         results.push_back(this);
@@ -121,4 +125,35 @@ void Directory::printGlobalAudit() const {
     std::cout << "Средний размер файла: "
         << (info.fileCount > 0 ? info.totalSize / info.fileCount : 0)
         << " байт\n";
+}
+void Directory::exportToCSV(const std::string& filename) const {
+    std::ofstream out(filename);
+    if (!out.is_open()) {
+        throw FileSystemException("Ошибка: не удалось создать CSV файл!");
+    }
+
+    // Записываем заголовки столбцов
+    out << "Имя,Тип,Размер(Байт),Уровень Доступа\n";
+
+    // Собираем абсолютно все ресурсы (условие всегда возвращает true)
+    std::vector<const Resource*> allResources;
+    search([](const Resource*) { return true; }, allResources);
+
+    for (const auto* res : allResources) {
+        // Определяем тип (Файл или Папка)
+        std::string type = dynamic_cast<const File*>(res) ? "Файл" : "Папка";
+
+        // Расшифровываем enum AccessLevel в строку
+        std::string aclStr = "GUEST";
+        if (res->getAccessLevel() == AccessLevel::USER) aclStr = "USER";
+        if (res->getAccessLevel() == AccessLevel::ADMIN) aclStr = "ADMIN";
+
+        // Пишем строку в CSV
+        out << res->getName() << ","
+            << type << ","
+            << res->calculateSize() << ","
+            << aclStr << "\n";
+    }
+
+    Logger::log("Структура успешно экспортирована в CSV: " + filename);
 }
