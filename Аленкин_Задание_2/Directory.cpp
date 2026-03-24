@@ -2,16 +2,19 @@
 #include "FileSystemException.h"
 #include <iostream>
 #include <algorithm>
-
+#include "Logger.h"
 Directory::Directory(const std::string& name, AccessLevel level)
     : Resource(name, level) {
 }
 
 void Directory::addResource(std::unique_ptr<Resource> resource) {
+    std::string resName = resource->getName(); // Запоминаем имя до std::move
     contents.push_back(std::move(resource));
+    Logger::log("Добавлен ресурс '" + resName + "' в папку '" + getName() + "'");
 }
 
 void Directory::removeResource(const std::string& name) {
+    auto originalSize = contents.size();
     contents.erase(
         std::remove_if(contents.begin(), contents.end(),
             [&name](const std::unique_ptr<Resource>& res) {
@@ -19,6 +22,13 @@ void Directory::removeResource(const std::string& name) {
             }),
         contents.end()
     );
+
+    if (contents.size() < originalSize) {
+        Logger::log("Удален ресурс '" + name + "' из папки '" + getName() + "'");
+    }
+    else {
+        Logger::log("Попытка удаления несуществующего ресурса '" + name + "'", true);
+    }
 }
 
 size_t Directory::calculateSize() const {

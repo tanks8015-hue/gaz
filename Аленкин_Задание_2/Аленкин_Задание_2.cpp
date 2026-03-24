@@ -5,7 +5,7 @@
 
 int main() {
     try {
-        setlocale(LC_ALL, "Russian"); // Для нормального вывода в консоль
+        setlocale(LC_ALL, "Russian"); 
 
         Directory root("Root", AccessLevel::ADMIN);
 
@@ -19,16 +19,10 @@ int main() {
         std::cout << "--- Исходное дерево ---\n";
         root.printInfo();
         std::cout << "Общий размер: " << root.calculateSize() << " байт\n\n";
-
-        // Тест клонирования
         auto clonedDir = root.clone();
         clonedDir->setAccessLevel(AccessLevel::ADMIN);
         std::cout << "--- Клонированное дерево ---\n";
         clonedDir->printInfo();
-
-        // Тест перемещения (вытаскиваем файл из клона и кладем в корень клона)
-        // В реальной программе нужно делать приведение типов, чтобы вызвать extractResource у папки Images
-
     }
     catch (const FileSystemException& e) {
         std::cerr << "Ошибка файловой системы: " << e.what() << std::endl;
