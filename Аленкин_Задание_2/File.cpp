@@ -24,3 +24,7 @@ void File::printInfo(int depth) const {
     std::string indent(depth * 2, ' ');
     std::cout << indent << "- [Ôאיכ] " << getName() << extension << " (" << size << " באיע)\n";
 }
+std::unique_ptr<Resource> File::clone() const {
+    
+    return std::make_unique<File>(getName(), extension, size, getAccessLevel());
+}

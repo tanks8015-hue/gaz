@@ -8,7 +8,7 @@ private:
 
 public:
     File(const std::string& name, const std::string& ext, size_t size, AccessLevel level);
-
+    std::unique_ptr<Resource> clone() const override;
     std::string getExtension() const;
 
     size_t calculateSize() const override;

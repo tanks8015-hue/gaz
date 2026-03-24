@@ -32,4 +32,5 @@ public:
     // Чисто виртуальные методы
     virtual size_t calculateSize() const = 0;
     virtual void printInfo(int depth = 0) const = 0;
+    virtual std::unique_ptr<Resource> clone() const = 0;
 };
