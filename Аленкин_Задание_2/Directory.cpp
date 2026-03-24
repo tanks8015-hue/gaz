@@ -9,7 +9,10 @@ Directory::Directory(const std::string& name, AccessLevel level)
 void Directory::addResource(std::unique_ptr<Resource> resource) {
     contents.push_back(std::move(resource));
 }
-
+void Directory::clear() {
+    // Вектор очищается, и деструкторы unique_ptr каскадно удаляют всё дерево вложенных файлов и папок
+    contents.clear();
+}
 void Directory::removeResource(const std::string& name) {
     // std::remove_if сдвигает элементы, которые нужно удалить, в конец вектора, а erase их уничтожает
     // Деструкторы std::unique_ptr автоматически очистят память

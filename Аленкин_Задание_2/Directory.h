@@ -9,7 +9,7 @@ private:
 
 public:
     Directory(const std::string& name, AccessLevel level);
-
+    void clear();
     void addResource(std::unique_ptr<Resource> resource);
     void removeResource(const std::string& name);
 
